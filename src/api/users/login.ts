@@ -16,7 +16,7 @@ export const login = async ({
   });
 
   if (!response.ok) {
-    throw new Error("로그인 실패");
+    throw new Error("이메일 또는 비밀번호가 일치하지 않습니다.");
   }
 
   return response.json();

@@ -1,37 +1,62 @@
 import { Button, TextField } from "@/components";
 import { useLoginMutation } from "@/hooks";
-import { useState } from "react";
+import { userSchema } from "@/validators";
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { UserRequest } from "@/types";
+import { ErrorMessage } from "@/components/ErrorMessage";
 
 export function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const { mutate: login } = useLoginMutation();
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(userSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+    mode: "onSubmit",
+  });
+  const { mutate: login, isError, error: apiError } = useLoginMutation();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    login({ email, password });
+  const onSubmit = (data: UserRequest) => {
+    login(data);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className="grid gap-6">
         <div className="grid gap-6">
-          <TextField
-            id="email"
-            type="email"
-            label="이메일"
-            isRequired={true}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+          <Controller
+            control={control}
+            name="email"
+            rules={{ required: true }}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                id="email"
+                label="이메일"
+                error={errors.email?.message}
+              />
+            )}
           />
-          <TextField
-            id="password"
-            type="password"
-            label="비밀번호"
-            isRequired={true}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+          <Controller
+            control={control}
+            name="password"
+            rules={{ required: true }}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                id="password"
+                label="비밀번호"
+                type="password"
+                error={errors.password?.message}
+              />
+            )}
           />
+          {isError && <ErrorMessage error={apiError.message} />}
           <Button type="submit" className="w-full">
             로그인
           </Button>
