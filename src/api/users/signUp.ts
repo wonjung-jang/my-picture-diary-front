@@ -1,18 +1,12 @@
-import { UserResponse } from "@/types";
+import { UserSignupRequest, UserResponse } from "@/types";
 
-export const signUp = async ({
-  email,
-  password,
-}: {
-  email: string;
-  password: string;
-}): Promise<UserResponse> => {
-  const response = await fetch("http://localhost:3000/users/signup", {
+export const signUp = async (requestData: UserSignupRequest): Promise<UserResponse> => {
+  const response = await fetch("http://localhost:3000/auth/signup", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify(requestData),
   });
 
   if (!response.ok) {

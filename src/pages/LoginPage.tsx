@@ -1,9 +1,7 @@
 import { Button, TextField } from "@/components";
-import { useLoginMutation } from "@/hooks";
-import { userSchema } from "@/validators";
-import { Controller, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { UserRequest } from "@/types";
+import { useLoginForm, useLoginMutation } from "@/hooks";
+import { Controller } from "react-hook-form";
+import { UserLoginRequest } from "@/types";
 import { ErrorMessage } from "@/components/ErrorMessage";
 
 export function LoginPage() {
@@ -11,17 +9,10 @@ export function LoginPage() {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm({
-    resolver: zodResolver(userSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-    mode: "onSubmit",
-  });
+  } = useLoginForm();
   const { mutate: login, isError, error: apiError } = useLoginMutation();
 
-  const onSubmit = (data: UserRequest) => {
+  const onSubmit = (data: UserLoginRequest) => {
     login(data);
   };
 
@@ -34,12 +25,7 @@ export function LoginPage() {
             name="email"
             rules={{ required: true }}
             render={({ field }) => (
-              <TextField
-                {...field}
-                id="email"
-                label="이메일"
-                error={errors.email?.message}
-              />
+              <TextField {...field} id="email" label="이메일" error={errors.email?.message} />
             )}
           />
           <Controller
