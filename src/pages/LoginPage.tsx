@@ -1,5 +1,5 @@
 import { Button, TextField } from "@/components";
-import { useLoginForm, useLoginMutation } from "@/hooks";
+import { useLogin, useLoginForm } from "@/hooks";
 import { Controller } from "react-hook-form";
 import { UserLoginRequest } from "@/types";
 import { ErrorMessage } from "@/components/ErrorMessage";
@@ -10,7 +10,7 @@ export function LoginPage() {
     control,
     formState: { errors },
   } = useLoginForm();
-  const { mutate: login, isError, error: apiError } = useLoginMutation();
+  const { login, isError, errorMessage } = useLogin();
 
   const onSubmit = (data: UserLoginRequest) => {
     login(data);
@@ -42,7 +42,7 @@ export function LoginPage() {
               />
             )}
           />
-          {isError && <ErrorMessage error={apiError.message} />}
+          {isError && <ErrorMessage error={errorMessage} />}
           <Button type="submit" className="w-full">
             로그인
           </Button>

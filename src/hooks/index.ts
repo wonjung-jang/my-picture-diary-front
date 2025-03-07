@@ -1,3 +1,3 @@
-export * from "./useLoginMutation";
-export * from "./useSignUpMutation";
+export * from "./useLogin";
+export * from "./useSignup";
 export * from "./useLoginForm";

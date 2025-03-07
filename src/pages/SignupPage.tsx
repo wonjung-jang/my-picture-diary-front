@@ -1,5 +1,5 @@
 import { Button, TextField } from "@/components";
-import { useSignUpMutation } from "@/hooks";
+import { useSignup } from "@/hooks";
 import { UserSignupForm } from "@/types";
 import { signupSchema } from "@/validators";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,11 +20,11 @@ export function SignupPage() {
     },
     mode: "onSubmit",
   });
-  const { mutate: signUp } = useSignUpMutation();
+  const { signup } = useSignup();
 
   const onSubmit = (data: UserSignupForm) => {
     const { passwordConfirmation: _, ...requestData } = data;
-    signUp(requestData);
+    signup(requestData);
   };
 
   return (
