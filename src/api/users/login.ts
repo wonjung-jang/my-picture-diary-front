@@ -1,7 +1,7 @@
-import { UserRequest, UserResponse } from "@/types";
+import { UserLoginRequest, LoginResponse } from "@/types";
 
-export const login = async (requestData: UserRequest): Promise<UserResponse> => {
-  const response = await fetch("http://localhost:3000/users/login", {
+export const login = async (requestData: UserLoginRequest): Promise<LoginResponse> => {
+  const response = await fetch("http://localhost:3000/auth/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

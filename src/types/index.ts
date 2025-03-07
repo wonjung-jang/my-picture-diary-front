@@ -12,6 +12,10 @@ export type UserLoginRequest = {
   password: string;
 };
 
+export type LoginResponse = {
+  accessToken: string;
+};
+
 export type UserResponse = {
   id: string;
   name: string;
