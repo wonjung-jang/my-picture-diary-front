@@ -1,5 +1,6 @@
 import React from "react";
 import { Input, Label } from "./ui";
+import { ErrorMessage } from "./ErrorMessage";
 
 interface TextFieldProps extends React.ComponentProps<"input"> {
   id: string;
@@ -15,7 +16,7 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
           <Label htmlFor={id}>{label}</Label>
         </div>
         <Input id={id} {...props} ref={ref} />
-        {error && <p className="text-sm font-medium leading-none text-red-500">{error}</p>}
+        {error && <ErrorMessage error={error} />}
       </div>
     );
   }

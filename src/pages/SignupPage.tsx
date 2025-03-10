@@ -1,26 +1,19 @@
 import { Button, TextField } from "@/components";
-import { useSignup } from "@/hooks";
+import { EmailVerifyInput } from "@/components/EmailVerifyInput";
+import { useSignup, useSignupForm } from "@/hooks";
 import { UserSignupForm } from "@/types";
-import { signupSchema } from "@/validators";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, useForm } from "react-hook-form";
+import { useState } from "react";
+import { Controller } from "react-hook-form";
 
 export function SignupPage() {
   const {
     handleSubmit,
     control,
-    formState: { errors },
-  } = useForm<UserSignupForm>({
-    resolver: zodResolver(signupSchema),
-    defaultValues: {
-      email: "",
-      name: "",
-      password: "",
-      passwordConfirmation: "",
-    },
-    mode: "onSubmit",
-  });
+    formState: { errors, isValid },
+  } = useSignupForm();
   const { signup } = useSignup();
+  const [isAuthEmail, setIsAuthEmail] = useState<boolean>(false);
+  const isAllVerify = isAuthEmail && isValid;
 
   const onSubmit = (data: UserSignupForm) => {
     const { passwordConfirmation: _, ...requestData } = data;
@@ -31,20 +24,7 @@ export function SignupPage() {
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="grid gap-6">
         <div className="grid gap-6">
-          <Controller
-            control={control}
-            name="email"
-            rules={{ required: true }}
-            render={({ field }) => (
-              <TextField
-                id="email"
-                type="email"
-                label="이메일"
-                error={errors.email?.message}
-                {...field}
-              />
-            )}
-          />
+          <EmailVerifyInput control={control} onChangeAuthEmail={setIsAuthEmail} />
           <Controller
             control={control}
             name="name"
@@ -87,7 +67,7 @@ export function SignupPage() {
               />
             )}
           />
-          <Button type="submit" className="w-full">
+          <Button type="submit" className="w-full" disabled={!isAllVerify}>
             회원가입
           </Button>
         </div>
