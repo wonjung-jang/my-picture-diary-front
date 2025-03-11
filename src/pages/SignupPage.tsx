@@ -5,6 +5,7 @@ import { UserSignupForm } from "@/types";
 import { useState } from "react";
 import { Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 export function SignupPage() {
   const {
@@ -13,21 +14,26 @@ export function SignupPage() {
     formState: { errors, isValid },
   } = useSignupForm();
   const { signup, isLoading } = useSignup();
-  const [isAvailableId, setIsAvailableId] = useState<boolean>(false);
+  const [isNotDuplicateId, setIsNotDuplicateId] = useState<boolean>(false);
   const navigate = useNavigate();
-  const isAllVerify = isAvailableId && isValid;
+  const isAllVerify = isNotDuplicateId && isValid;
 
   const onSubmit = (data: UserSignupForm) => {
     const { passwordConfirmation: _, ...requestData } = data;
     signup(requestData);
     navigate("/");
+    toast("회원 가입 성공!");
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="grid gap-6">
         <div className="grid gap-6">
-          <UserIdInput control={control} onChangeAvailableId={setIsAvailableId} />
+          <UserIdInput
+            control={control}
+            isNotDuplicateId={isNotDuplicateId}
+            setIsNotDuplicateId={setIsNotDuplicateId}
+          />
           <Controller
             control={control}
             name="name"

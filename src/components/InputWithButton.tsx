@@ -15,12 +15,17 @@ interface InputWithButtonProps extends React.ComponentProps<"input"> {
 
 export const InputWithButton = forwardRef<HTMLInputElement, InputWithButtonProps>(
   (props: InputWithButtonProps, ref) => {
-    const { error, buttonLabel, isLoading, onButtonClick, ...rest } = props;
+    const { error, buttonLabel, isLoading, onButtonClick, disabled, ...rest } = props;
     return (
       <div className="grid gap-2">
         <div className="flex w-full max-w-sm items-center space-x-2">
-          <Input {...rest} ref={ref} />
-          <SpinnerButton isLoading={isLoading} defaultText={buttonLabel} onClick={onButtonClick} />
+          <Input disabled={disabled} {...rest} ref={ref} />
+          <SpinnerButton
+            isLoading={isLoading}
+            defaultText={buttonLabel}
+            onClick={onButtonClick}
+            disabled={disabled}
+          />
         </div>
         {error && <ErrorMessage error={error} />}
       </div>
