@@ -10,6 +10,6 @@ export const login = async (requestData: UserLoginRequest): Promise<LoginRespons
     return response.data;
   } catch (error: any) {
     const serverMessage = error.response?.data?.message;
-    throw new Error(serverMessage || "이메일 또는 비밀번호가 일치하지 않습니다.");
+    throw new Error(serverMessage || "아이디 또는 비밀번호가 일치하지 않습니다.");
   }
 };

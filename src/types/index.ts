@@ -1,5 +1,5 @@
 export type UserSignupForm = {
-  email: string;
+  userId: string;
   name: string;
   password: string;
   passwordConfirmation: string;
@@ -8,7 +8,7 @@ export type UserSignupForm = {
 export type UserSignupRequest = Omit<UserSignupForm, "passwordConfirmation">;
 
 export type UserLoginRequest = {
-  email: string;
+  userId: string;
   password: string;
 };
 
@@ -19,5 +19,5 @@ export type LoginResponse = {
 export type UserResponse = {
   id: string;
   name: string;
-  email: string;
+  userId: string;
 };

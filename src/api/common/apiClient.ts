@@ -9,7 +9,7 @@ apiClient.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originRequest = error.config;
-    if (error.response.status === 401 && originRequest._retry) {
+    if (error.response.status === 401 && !originRequest._retry) {
       originRequest._retry = true;
       try {
         const { data } = await axios.post(

@@ -1,5 +1,5 @@
 import { Button, TextField } from "@/components";
-import { EmailVerifyInput } from "@/components/EmailVerifyInput";
+import { UserIdInput } from "@/components/UserIdInput";
 import { useSignup, useSignupForm } from "@/hooks";
 import { UserSignupForm } from "@/types";
 import { useState } from "react";
@@ -12,8 +12,8 @@ export function SignupPage() {
     formState: { errors, isValid },
   } = useSignupForm();
   const { signup } = useSignup();
-  const [isAuthEmail, setIsAuthEmail] = useState<boolean>(false);
-  const isAllVerify = isAuthEmail && isValid;
+  const [isAvailableId, setIsAvailableId] = useState<boolean>(false);
+  const isAllVerify = isAvailableId && isValid;
 
   const onSubmit = (data: UserSignupForm) => {
     const { passwordConfirmation: _, ...requestData } = data;
@@ -24,7 +24,7 @@ export function SignupPage() {
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="grid gap-6">
         <div className="grid gap-6">
-          <EmailVerifyInput control={control} onChangeAuthEmail={setIsAuthEmail} />
+          <UserIdInput control={control} onChangeAvailableId={setIsAvailableId} />
           <Controller
             control={control}
             name="name"
@@ -34,6 +34,7 @@ export function SignupPage() {
                 id="name"
                 type="text"
                 label="이름"
+                placeholder="이름을 입력해주세요."
                 error={errors.name?.message}
                 {...field}
               />
@@ -48,6 +49,7 @@ export function SignupPage() {
                 id="password"
                 type="password"
                 label="비밀번호"
+                placeholder="비밀번호를 입력해주세요."
                 error={errors.password?.message}
                 {...field}
               />
@@ -62,6 +64,7 @@ export function SignupPage() {
                 id="passwordConfirmation"
                 type="password"
                 label="비밀번호 확인"
+                placeholder="비밀번호를 입력해주세요."
                 error={errors.passwordConfirmation?.message}
                 {...field}
               />

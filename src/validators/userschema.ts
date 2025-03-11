@@ -1,8 +1,9 @@
 import { z } from "zod";
 
-export const emailSchema = z
-  .string({ required_error: "이메일을 입력해주세요." })
-  .email("이메일 형식으로 입력해주세요.");
+export const userIdSchema = z
+  .string({ required_error: "아이디를 입력해주세요." })
+  .min(4, { message: "아이디는 4자 이상이어야 합니다." })
+  .max(16, { message: "아이디는 16자 이하여야 합니다." });
 
 const passwordSchema = z
   .string({ required_error: "비밀번호를 입력해주세요." })
@@ -12,13 +13,13 @@ const passwordSchema = z
   .regex(/[^\w\s]/, { message: "비밀번호는 특수문자를 포함해야 합니다." });
 
 export const loginSchema = z.object({
-  email: emailSchema,
+  userId: userIdSchema,
   password: passwordSchema,
 });
 
 export const signupSchema = z
   .object({
-    email: emailSchema,
+    userId: userIdSchema,
     name: z.string({ required_error: "이름을 입력해주세요." }),
     password: passwordSchema,
     passwordConfirmation: passwordSchema,
