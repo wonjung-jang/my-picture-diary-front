@@ -1,4 +1,4 @@
-import { Button, Spinner, TextField } from "@/components";
+import { SpinnerButton, TextField } from "@/components";
 import { UserIdInput } from "@/components/UserIdInput";
 import { useSignup, useSignupForm } from "@/hooks";
 import { UserSignupForm } from "@/types";
@@ -73,9 +73,12 @@ export function SignupPage() {
               />
             )}
           />
-          <Button type="submit" className="w-full" disabled={!isAllVerify}>
-            {isLoading ? <Spinner /> : "회원가입"}
-          </Button>
+          <SpinnerButton
+            type="submit"
+            disabled={!isAllVerify}
+            isLoading={isLoading}
+            defaultText="회원가입"
+          />
         </div>
       </div>
     </form>

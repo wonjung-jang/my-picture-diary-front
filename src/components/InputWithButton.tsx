@@ -1,8 +1,7 @@
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { forwardRef } from "react";
 import { ErrorMessage } from "./ErrorMessage";
-import { Spinner } from "./Spinner";
+import { SpinnerButton } from "./SpinnerButton";
 
 interface InputWithButtonProps extends React.ComponentProps<"input"> {
   id: string;
@@ -21,9 +20,7 @@ export const InputWithButton = forwardRef<HTMLInputElement, InputWithButtonProps
       <div className="grid gap-2">
         <div className="flex w-full max-w-sm items-center space-x-2">
           <Input {...rest} ref={ref} />
-          <Button type="button" onClick={onButtonClick}>
-            {isLoading ? <Spinner /> : buttonLabel}
-          </Button>
+          <SpinnerButton isLoading={isLoading} defaultText={buttonLabel} onClick={onButtonClick} />
         </div>
         {error && <ErrorMessage error={error} />}
       </div>
