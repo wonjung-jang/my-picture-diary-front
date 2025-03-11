@@ -11,7 +11,7 @@ interface UserIdInputProps {
 
 export const UserIdInput = (props: UserIdInputProps) => {
   const { control, onChangeAvailableId } = props;
-  const { isDuplicate, errorMessage, checkDuplicate } = useDuplicateUserId();
+  const { isLoading, isDuplicate, errorMessage, checkDuplicate } = useDuplicateUserId();
   const onClickDuplicate = (userId: string) => {
     checkDuplicate(userId);
     onChangeAvailableId(isDuplicate);
@@ -30,6 +30,7 @@ export const UserIdInput = (props: UserIdInputProps) => {
           error={errorMessage}
           {...field}
           buttonLabel="중복 검사"
+          isLoading={isLoading}
           onButtonClick={() => onClickDuplicate(field.value)}
         />
       )}

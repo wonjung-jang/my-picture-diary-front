@@ -1,7 +1,9 @@
 import { signup } from "@/api";
 import { UserSignupRequest } from "@/types";
+import { useState } from "react";
 
 export const useSignup = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   // const [isError, setIsError] = useState<boolean>(false);
   // const [errorMessage, setErrorMessage] = useState<string>("");
 
@@ -16,5 +18,5 @@ export const useSignup = () => {
     // }
   };
 
-  return { signup: signupFn };
+  return { signup: signupFn, isLoading };
 };

@@ -3,18 +3,22 @@ import { userIdSchema } from "@/validators";
 import { useState } from "react";
 
 export const useDuplicateUserId = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isDuplicate, setIsDuplicate] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const checkDuplicate = async (useId: string) => {
+    setIsLoading(true);
     const result = userIdSchema.safeParse(useId);
     if (!result.success) {
+      const errorMessage = result.error.errors[0].message;
       setIsDuplicate(false);
-      setErrorMessage("아이디는 4자 이상 16자 이하로 작성해야 합니다.");
+      setErrorMessage(errorMessage);
+      setIsLoading(false);
       return;
     }
 
     try {
-      const response = await authClient.post("/auth/send/code", { useId });
+      const response = await authClient.post("/auth/duplicate", { useId });
       setIsDuplicate(true);
       setErrorMessage("");
       return response.data;
@@ -22,8 +26,10 @@ export const useDuplicateUserId = () => {
       const serverMessage = error.response.data.message;
       setIsDuplicate(false);
       setErrorMessage(serverMessage);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  return { isDuplicate, errorMessage, checkDuplicate };
+  return { isLoading, isDuplicate, errorMessage, checkDuplicate };
 };
