@@ -5,6 +5,17 @@ const apiClient = axios.create({
   withCredentials: true,
 });
 
+apiClient.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("myPictureDiaryAccessToken");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
 apiClient.interceptors.response.use(
   (response) => response,
   async (error) => {
@@ -19,7 +30,7 @@ apiClient.interceptors.response.use(
         );
         const { accessToken } = data;
 
-        axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+        localStorage.setItem("myPictureDiaryAccessToken", accessToken);
         originRequest.headers.Authorization = `Bearer ${accessToken}`;
         return apiClient(originRequest);
       } catch (refreshError) {
