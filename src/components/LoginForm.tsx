@@ -3,6 +3,7 @@ import { useLogin, useLoginForm } from "@/hooks";
 import { Controller } from "react-hook-form";
 import { UserLoginRequest } from "@/types";
 import { ErrorMessage } from "@/components/ErrorMessage";
+import { useNavigate } from "react-router-dom";
 
 export function LoginForm() {
   const {
@@ -11,9 +12,11 @@ export function LoginForm() {
     formState: { errors },
   } = useLoginForm();
   const { login, isError, errorMessage } = useLogin();
+  const navigate = useNavigate();
 
   const onSubmit = (data: UserLoginRequest) => {
     login(data);
+    navigate("/main");
   };
 
   return (

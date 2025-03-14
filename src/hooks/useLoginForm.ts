@@ -6,7 +6,7 @@ export const useLoginForm = () => {
   return useForm({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      id: "",
+      userId: "",
       password: "",
     },
     mode: "onSubmit",
