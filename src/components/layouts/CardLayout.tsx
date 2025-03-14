@@ -1,7 +1,7 @@
 import { Link, Outlet, useLocation } from "react-router-dom";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui";
 
-export function DefaultLayout() {
+export function CardLayout() {
   const location = useLocation();
 
   return (
